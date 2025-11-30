@@ -198,7 +198,7 @@ const ManageVideos = () => {
                             <div
                                 key={video.id}
                                 onClick={() => navigate(`/admin/video/${video.id}`)}
-                                className="bg-dark-card p-4 rounded-xl border border-gray-800 hover:border-neon-orange transition-all group shadow-lg flex flex-col cursor-pointer"
+                                className={`bg-dark-card p-4 rounded-xl border border-gray-800 hover:border-neon-orange transition-all group shadow-lg flex flex-col cursor-pointer ${!video.is_active ? 'opacity-60 grayscale-[50%]' : ''}`}
                             >
                                 <div className="relative aspect-video bg-gray-900 rounded-lg overflow-hidden mb-4 group">
                                     {video.thumbnail ? (
@@ -212,7 +212,10 @@ const ManageVideos = () => {
                                         <FaPlay className="text-white text-3xl drop-shadow-lg" />
                                     </div>
                                 </div>
-                                <h3 className="text-lg font-bold text-white mb-1 truncate group-hover:text-neon-orange transition-colors">{video.name}</h3>
+                                <h3 className="text-lg font-bold text-white mb-1 truncate group-hover:text-neon-orange transition-colors flex items-center gap-2">
+                                    {video.name}
+                                    {!video.is_active && <span className="text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded border border-red-500/30">Deleted</span>}
+                                </h3>
                                 <div className="flex flex-wrap gap-2 mb-2">
                                     {video.is_default === 1 && (
                                         <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-xs rounded border border-blue-500/30">Default</span>
@@ -235,7 +238,12 @@ const ManageVideos = () => {
                                         <button onClick={(e) => openEdit(video, e)} className="text-gray-400 hover:text-white p-2 transition-colors">
                                             <FaEdit />
                                         </button>
-                                        <button onClick={(e) => handleDelete(video.id, e)} className="text-red-500 hover:text-red-400 p-2 transition-colors">
+                                        <button
+                                            onClick={(e) => video.is_active && handleDelete(video.id, e)}
+                                            className={`p-2 transition-colors ${video.is_active ? 'text-red-500 hover:text-red-400' : 'text-gray-500 cursor-not-allowed'}`}
+                                            disabled={!video.is_active}
+                                            title={video.is_active ? "Delete" : "Already Deleted"}
+                                        >
                                             <FaTrash />
                                         </button>
                                     </div>

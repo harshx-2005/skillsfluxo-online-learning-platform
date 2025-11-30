@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import api from '../../utils/api';
+import api, { getAssetUrl } from '../../utils/api';
 import { FaArrowLeft, FaPlay, FaThumbsUp } from 'react-icons/fa';
 
 const AdminVideoPlayer = () => {
