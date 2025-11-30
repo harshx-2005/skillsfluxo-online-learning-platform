@@ -4,29 +4,42 @@ const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const cors = require('cors');
 const connection = require('./config/db');
 
-// CORS FIX for Vercel
-app.use(
-  cors({
-    origin: [
-      "https://skillsfluxo-online-learning-platfor.vercel.app",
-      "http://localhost:5173"
-    ],
-    methods: "GET,POST,PUT,PATCH,DELETE",
-    credentials: true,
-  })
-);
-app.options("*", cors());
+// --------------------------
+// CORS STRATEGIC CONFIG
+// --------------------------
+const allowedOrigins = [
+  "https://skillsfluxo-online-learning-platfor.vercel.app",
+  "http://localhost:5173"
+];
 
-// Server start
-app.listen(process.env.PORT || 5000, () => {
-  console.log(`Server is running on port ${process.env.PORT || 5000}`);
-  console.log("PM2 name =>", process.env.name);
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
+  next();
 });
 
-// Test DB
+// --------------------------
+// BACKEND LIFECYCLE
+// --------------------------
+app.listen(process.env.PORT || 5000, () => {
+  console.log(`Server running on port ${process.env.PORT || 5000}`);
+});
+
+// --------------------------
+// TEST ENDPOINT
+// --------------------------
 app.get("/test-db", (req, res) => {
   connection.query("SELECT 1", (err, result) => {
     if (err) return res.send({ status: "error", error: err });
@@ -34,7 +47,19 @@ app.get("/test-db", (req, res) => {
   });
 });
 
-// ROUTES
+// --------------------------
+// CORE MIDDLEWARE
+// --------------------------
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// --------------------------
+// ROUTING MATRIX
+// --------------------------
 const indexRouter = require('./routes/auth.routes');
 const courseRouter = require('./routes/course.routes');
 const authRouter = require('./routes/auth.routes');
@@ -47,14 +72,6 @@ const studentRoutes = require("./routes/student.routes");
 const adminCourses = require("./routes/adminCourse.routes");
 const exportRoutes = require("./routes/export.routes");
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-// API routes
 app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/course', courseRouter);
