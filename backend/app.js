@@ -1,4 +1,5 @@
 // Trigger restart
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -6,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const connection = require('./config/db');
-require('dotenv').config();
+
 
 
 
