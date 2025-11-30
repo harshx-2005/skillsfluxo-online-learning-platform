@@ -42,7 +42,12 @@ const Navbar = () => {
 
                     {user && (
                         <>
-                            <Link to="/" className="text-gray-300 hover:text-white transition-colors font-medium">Home</Link>
+                            <Link
+                                to={user.role === 'admin' ? '/admin/dashboard' : user.role === 'trainer' ? '/trainer/home' : '/student/home'}
+                                className="text-gray-300 hover:text-white transition-colors font-medium"
+                            >
+                                Home
+                            </Link>
                             <Link
                                 to={user.role === 'admin' ? '/admin/dashboard' : user.role === 'trainer' ? '/trainer/dashboard' : '/student/dashboard'}
                                 className="text-gray-300 hover:text-white transition-colors font-medium"

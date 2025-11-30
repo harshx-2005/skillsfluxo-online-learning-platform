@@ -52,7 +52,7 @@ module.exports = {
     const trainer_id = req.user.id;
 
     const sql = `
-      SELECT c.id, c.name, c.description
+      SELECT c.id, c.name, c.description, c.thumbnail
       FROM user_courses uc
       JOIN courses c ON c.id = uc.course_id
       WHERE uc.user_id = ? AND uc.role_in_course = 'trainer'
