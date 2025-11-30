@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --color-neon-orange: #FF5F1F;
+  --color-neon-purple: #bd00ff;
+  --color-neon-blue: #00f2ff;
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+  --color-glass-bg: rgba(255, 255, 255, 0.03);
+  --color-glass-highlight: rgba(255, 255, 255, 0.08);
+  --color-dark-bg: #050505;
+  --color-dark-text: #ffffff;
+  --font-sans: 'Outfit', 'Inter', sans-serif;
+}
+
+:root {
+  background-color: var(--color-dark-bg);
+  color: var(--color-dark-text);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-dark-bg);
+  overflow-x: hidden;
+}
+
+/* Standard Dark Theme Utilities */
+.card-dark {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-neon-blue);
+  box-shadow: 0 10px 30px -10px rgba(0, 242, 255, 0.2);
+}
+
+.btn-primary {
+  background: var(--color-neon-blue);
+  color: black;
+  border: none;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: white;
+  transform: translateY(-1px);
+}
