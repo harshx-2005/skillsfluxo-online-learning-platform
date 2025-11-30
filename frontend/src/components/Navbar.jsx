@@ -18,7 +18,7 @@ const Navbar = () => {
         <nav className="relative w-full z-50 bg-[#111] border-b border-gray-800 py-4">
             <div className="container mx-auto px-4 md:px-8 flex justify-between items-center">
                 <Link to="/" className="text-2xl font-extrabold tracking-tighter">
-                    Skills<span className="text-neon-blue">Fluxo</span>
+                    Skills<span className="text-neon-orange">Fluxo</span>
                 </Link>
 
                 {/* Mobile Menu Button */}
