@@ -116,7 +116,7 @@ const ManageCourses = () => {
                 <>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                         {courses.map(course => (
-                            <div key={course.id} className="bg-dark-card p-6 rounded-xl border border-gray-800 hover:border-neon-orange transition-all group shadow-lg">
+                            <div key={course.id} className={`bg-dark-card p-6 rounded-xl border border-gray-800 hover:border-neon-orange transition-all group shadow-lg ${!course.is_active ? 'opacity-60 grayscale-[50%]' : ''}`}>
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="p-3 bg-gray-800 rounded-lg group-hover:bg-gray-700 transition-colors overflow-hidden w-16 h-16 flex items-center justify-center">
                                         {course.thumbnail ? (
@@ -147,12 +147,20 @@ const ManageCourses = () => {
                                         <button onClick={() => openEdit(course)} className="text-gray-400 hover:text-white transition-colors" title="Edit">
                                             <FaEdit />
                                         </button>
-                                        <button onClick={() => handleDelete(course.id)} className="text-gray-400 hover:text-red-500 transition-colors" title="Delete">
+                                        <button
+                                            onClick={() => course.is_active && handleDelete(course.id)}
+                                            className={`text-gray-400 transition-colors ${course.is_active ? 'hover:text-red-500' : 'cursor-not-allowed opacity-50'}`}
+                                            title={course.is_active ? "Delete" : "Already Deleted"}
+                                            disabled={!course.is_active}
+                                        >
                                             <FaTrash />
                                         </button>
                                     </div>
                                 </div>
-                                <h3 className="text-xl font-bold text-white mb-2">{course.name}</h3>
+                                <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                                    {course.name}
+                                    {!course.is_active && <span className="text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded border border-red-500/30">Deleted</span>}
+                                </h3>
                                 <p className="text-gray-400 text-sm mb-4 line-clamp-2">{course.description}</p>
                                 <div className="flex justify-between items-center text-sm">
                                     <span className="px-2 py-1 bg-gray-800 rounded text-gray-300">{course.level}</span>

@@ -18,7 +18,7 @@ const EnrollmentRequests = () => {
             setLoading(true);
             const [reqRes, batchRes] = await Promise.all([
                 api.get('/enroll/requests'),
-                api.get('/adminCourse/batch') // Correct endpoint for batches
+                api.get('/adminCourse/batch?activeOnly=true') // Correct endpoint for batches
             ]);
             setRequests(reqRes.data.data || []);
             setBatches(batchRes.data || []); // Adjust based on actual response structure

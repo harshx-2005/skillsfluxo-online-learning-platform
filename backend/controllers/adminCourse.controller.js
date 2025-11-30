@@ -61,6 +61,10 @@ module.exports = {
       where += ` AND (name LIKE '%${search}%' OR description LIKE '%${search}%')`;
     }
 
+    if (req.query.activeOnly) {
+      where += ` AND is_active = 1`;
+    }
+
     const sql = `
       SELECT *
       FROM courses
@@ -289,6 +293,7 @@ module.exports = {
     `;
 
     if (course_id) sql += ` AND b.course_id = ${course_id}`;
+    if (req.query.activeOnly) sql += ` AND b.is_active = 1`;
 
     db.query(sql, (err, rows) => {
       if (err) return res.status(500).send(err);
@@ -370,7 +375,7 @@ module.exports = {
     SELECT b.*, c.name AS course_title
     FROM batches b
     LEFT JOIN courses c ON c.id = b.course_id
-    WHERE b.course_id = ?
+    WHERE b.course_id = ? ${req.query.activeOnly ? 'AND b.is_active = 1' : ''}
     ORDER BY b.start_date IS NULL, b.start_date DESC
   `;
     db.query(sql, [courseId], (err, rows) => {

@@ -38,7 +38,7 @@ const ManageAssignments = () => {
 
     const fetchCourses = async () => {
         try {
-            const response = await api.get('/adminCourse/course?limit=1000');
+            const response = await api.get('/adminCourse/course?limit=1000&activeOnly=true');
             setCourses(response.data.courses || []);
         } catch (error) {
             console.error("Error fetching courses:", error);
@@ -51,7 +51,7 @@ const ManageAssignments = () => {
             return;
         }
         try {
-            const response = await api.get(`/adminCourse/course/${courseId}/batches`);
+            const response = await api.get(`/adminCourse/course/${courseId}/batches?activeOnly=true`);
             setBatches(response.data.data || []);
         } catch (error) {
             console.error("Error fetching batches:", error);
@@ -61,7 +61,7 @@ const ManageAssignments = () => {
     const fetchReassignBatches = async (courseId) => {
         if (!courseId) return;
         try {
-            const response = await api.get(`/adminCourse/course/${courseId}/batches`);
+            const response = await api.get(`/adminCourse/course/${courseId}/batches?activeOnly=true`);
             setReassignBatches(response.data.data || []);
         } catch (error) {
             console.error("Error fetching reassign batches:", error);
