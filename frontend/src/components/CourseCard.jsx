@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { getAssetUrl } from '../utils/api';
+import { FaBook, FaCheckCircle } from 'react-icons/fa';
 
 const CourseCard = ({ course, isEnrolled, isPending, onEnroll, onContinue, hideEnrollButton }) => {
     const [imgError, setImgError] = useState(false);
