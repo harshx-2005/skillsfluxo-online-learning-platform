@@ -5,7 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-
+const connection = require('./config/db');
 require('dotenv').config();
 
 
@@ -22,6 +22,15 @@ app.listen(process.env.PORT || 5000, () => {
 } else {
   console.log("⛔ Scheduler Disabled for Replica");
 }*/
+
+app.get("/test-db", (req, res) => {
+  connection.query("SELECT 1", (err, result) => {
+    if (err) return res.send({ status: "error", error: err });
+    res.send({ status: "ok", result });
+  });
+});
+
+
 
 
 
