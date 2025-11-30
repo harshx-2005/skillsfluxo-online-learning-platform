@@ -132,7 +132,7 @@ const AdminProfile = () => {
                         <div className={`relative w-40 h-40 rounded-full overflow-hidden border-4 border-neon-orange group mb-4 ${isEditing ? 'cursor-pointer' : ''}`}>
                             {user?.profile_pic ? (
                                 <img
-                                    src={user.profile_pic.startsWith('http') ? user.profile_pic : `http://localhost:5000${user.profile_pic}`}
+                                    src={getAssetUrl(user.profile_pic)}
                                     alt="Profile"
                                     className="w-full h-full object-cover"
                                 />

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import api from '../../utils/api';
+import api, { getAssetUrl } from '../../utils/api';
 import { toast } from 'react-toastify';
 import { FaUserCircle, FaCamera, FaEnvelope, FaPhoneAlt, FaUser, FaFileAlt, FaDownload, FaEdit, FaSave, FaTimes, FaLock, FaSignOutAlt } from 'react-icons/fa';
 
@@ -187,7 +187,7 @@ const StudentProfile = () => {
                             <div className={`relative w-40 h-40 rounded-full overflow-hidden border-4 border-white/10 shadow-2xl group mb-6 ${isEditing ? 'cursor-pointer hover:border-neon-orange transition-colors' : ''}`}>
                                 {user?.profile_pic ? (
                                     <img
-                                        src={user.profile_pic.startsWith('http') ? user.profile_pic : `http://localhost:5000${user.profile_pic}`}
+                                        src={getAssetUrl(user.profile_pic)}
                                         alt="Profile"
                                         className="w-full h-full object-cover"
                                     />
@@ -320,7 +320,7 @@ const StudentProfile = () => {
                                     <div className="flex items-center gap-3 w-full md:w-auto">
                                         {resume && (
                                             <a
-                                                href={resume.startsWith('http') ? resume : `http://localhost:5000${resume}`}
+                                                href={getAssetUrl(resume)}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex-1 md:flex-none px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl font-bold transition-all text-sm flex items-center justify-center gap-2 border border-white/10"

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import api from '../../utils/api';
+import api, { getAssetUrl } from '../../utils/api';
 import { FaArrowLeft, FaPlay, FaVideo, FaUsers, FaUserGraduate } from 'react-icons/fa';
 
 const TrainerBatchDetails = () => {
@@ -64,10 +64,10 @@ const TrainerBatchDetails = () => {
                                     <div className="aspect-video bg-black">
                                         <video
                                             key={selectedVideo.id}
-                                            src={selectedVideo.url || selectedVideo.video_url} // Handle both potential property names
+                                            src={getAssetUrl(selectedVideo.url || selectedVideo.video_url)} // Handle both potential property names
                                             controls
                                             className="w-full h-full"
-                                            poster={selectedVideo.thumbnail || null}
+                                            poster={getAssetUrl(selectedVideo.thumbnail)}
                                         />
                                     </div>
                                     <div className="p-6">
@@ -95,7 +95,7 @@ const TrainerBatchDetails = () => {
                                         <div key={student.id} className="flex items-center gap-4 p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors">
                                             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center text-white font-bold text-lg overflow-hidden">
                                                 {student.profile_pic ? (
-                                                    <img src={student.profile_pic.startsWith('http') ? student.profile_pic : `http://localhost:5000${student.profile_pic}`} alt={student.name} className="w-full h-full object-cover" />
+                                                    <img src={getAssetUrl(student.profile_pic)} alt={student.name} className="w-full h-full object-cover" />
                                                 ) : (
                                                     <FaUserGraduate />
                                                 )}
@@ -130,7 +130,7 @@ const TrainerBatchDetails = () => {
                                         <div className="w-28 h-16 bg-black rounded overflow-hidden flex-shrink-0 relative">
                                             {video.thumbnail ? (
                                                 <img
-                                                    src={video.thumbnail}
+                                                    src={getAssetUrl(video.thumbnail)}
                                                     alt={video.name}
                                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                                 />

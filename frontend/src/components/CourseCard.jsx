@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { FaBook, FaCheckCircle } from 'react-icons/fa';
+import { getAssetUrl } from '../utils/api';
 
 const CourseCard = ({ course, isEnrolled, isPending, onEnroll, onContinue, hideEnrollButton }) => {
     const [imgError, setImgError] = useState(false);
@@ -12,7 +11,7 @@ const CourseCard = ({ course, isEnrolled, isPending, onEnroll, onContinue, hideE
             >
                 {course.thumbnail && !imgError ? (
                     <img
-                        src={course.thumbnail.startsWith('http') ? course.thumbnail : `http://localhost:5000${course.thumbnail}`}
+                        src={getAssetUrl(course.thumbnail)}
                         alt={course.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                         onError={() => setImgError(true)}

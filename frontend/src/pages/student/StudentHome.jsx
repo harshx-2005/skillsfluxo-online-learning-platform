@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import api from '../../utils/api';
+import api, { getAssetUrl } from '../../utils/api';
 import { toast } from 'react-toastify';
 import CourseCard from '../../components/CourseCard';
-import { FaFire, FaClock, FaStar, FaPlay, FaSearch, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaFire, FaClock, FaStar, FaPlay, FaSearch, FaChevronLeft, FaChevronRight, FaBook } from 'react-icons/fa';
 
 const StudentHome = () => {
     const [allCourses, setAllCourses] = useState([]);
@@ -117,7 +117,7 @@ const StudentHome = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/60 to-transparent z-10"></div>
                     <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/40 to-transparent z-10"></div>
                     <img
-                        src={featuredCourse.thumbnail ? (featuredCourse.thumbnail.startsWith('http') ? featuredCourse.thumbnail : `http://localhost:5000${featuredCourse.thumbnail}`) : "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"}
+                        src={featuredCourse.thumbnail ? getAssetUrl(featuredCourse.thumbnail) : "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"}
                         alt={featuredCourse.name}
                         className="w-full h-full object-cover"
                     />
@@ -258,7 +258,7 @@ const StudentHome = () => {
                                         >
                                             <div className="h-48 bg-gray-900 relative overflow-hidden group">
                                                 <img
-                                                    src={video.thumbnail ? (video.thumbnail.startsWith('http') ? video.thumbnail : `http://localhost:5000${video.thumbnail}`) : (video.course_thumbnail ? (video.course_thumbnail.startsWith('http') ? video.course_thumbnail : `http://localhost:5000${video.course_thumbnail}`) : null)}
+                                                    src={getAssetUrl(video.thumbnail || video.course_thumbnail)}
                                                     alt={video.title}
                                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                                     onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}

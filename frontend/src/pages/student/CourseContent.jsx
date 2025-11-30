@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import api from '../../utils/api';
+import api, { getAssetUrl } from '../../utils/api';
 import { toast } from 'react-toastify';
 import { FaPlay } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
@@ -110,10 +110,7 @@ const CourseContent = () => {
         }
     };
 
-    const getVideoUrl = (url) => {
-        if (!url) return '';
-        return url.startsWith('http') ? url : `http://localhost:5000${url}`;
-    };
+
 
     const formatDuration = (seconds) => {
         if (!seconds) return "00:00";
@@ -212,7 +209,7 @@ const CourseContent = () => {
                     <div className="w-8 h-8 rounded-full overflow-hidden border border-gray-600 ring-2 ring-transparent hover:ring-neon-blue/50 transition-all">
                         {user?.profile_pic ? (
                             <img
-                                src={user.profile_pic.startsWith('http') ? user.profile_pic : `http://localhost:5000${user.profile_pic}`}
+                                src={getAssetUrl(user.profile_pic)}
                                 alt="Profile"
                                 className="w-full h-full object-cover"
                             />
@@ -235,12 +232,12 @@ const CourseContent = () => {
                             {currentVideo ? (
                                 <video
                                     key={currentVideo.id}
-                                    src={getVideoUrl(currentVideo.url)}
+                                    src={getAssetUrl(currentVideo.url)}
                                     controls
                                     autoPlay
                                     onEnded={handleNext}
                                     className="w-full h-full object-contain"
-                                    poster={getVideoUrl(currentVideo.thumbnail)}
+                                    poster={getAssetUrl(currentVideo.thumbnail)}
                                 >
                                     Your browser does not support the video tag.
                                 </video>
@@ -317,7 +314,7 @@ const CourseContent = () => {
                                 >
                                     <div className="relative w-32 h-20 bg-gray-800 rounded-lg overflow-hidden flex-shrink-0 shadow-md group-hover:shadow-lg transition-all">
                                         {video.thumbnail ? (
-                                            <img src={getVideoUrl(video.thumbnail)} alt={video.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                            <img src={getAssetUrl(video.thumbnail)} alt={video.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center text-gray-600 bg-gray-900">
                                                 <FaPlay className="opacity-50" />

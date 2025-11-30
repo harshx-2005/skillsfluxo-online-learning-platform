@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import api from '../../utils/api';
+import api, { getAssetUrl } from '../../utils/api';
 import { toast } from 'react-toastify';
 import { FaUserCircle, FaCamera, FaEnvelope, FaPhoneAlt, FaUser, FaEdit, FaSave, FaTimes, FaLock, FaSignOutAlt } from 'react-icons/fa';
 
@@ -132,7 +132,7 @@ const TrainerProfile = () => {
                         <div className={`relative w-40 h-40 rounded-full overflow-hidden border-4 border-neon-purple group mb-4 ${isEditing ? 'cursor-pointer' : ''}`}>
                             {user?.profile_pic ? (
                                 <img
-                                    src={user.profile_pic.startsWith('http') ? user.profile_pic : `http://localhost:5000${user.profile_pic}`}
+                                    src={getAssetUrl(user.profile_pic)}
                                     alt="Profile"
                                     className="w-full h-full object-cover"
                                 />

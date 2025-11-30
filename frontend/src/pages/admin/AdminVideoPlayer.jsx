@@ -114,7 +114,7 @@ const AdminVideoPlayer = () => {
                                     >
                                         <div className="w-32 h-20 bg-gray-800 rounded overflow-hidden flex-shrink-0 relative group">
                                             <img
-                                                src={vid.thumbnail ? (vid.thumbnail.startsWith('http') ? vid.thumbnail : `http://localhost:5000${vid.thumbnail}`) : (vid.course_thumbnail ? (vid.course_thumbnail.startsWith('http') ? vid.course_thumbnail : `http://localhost:5000${vid.course_thumbnail}`) : null)}
+                                                src={getAssetUrl(vid.thumbnail || vid.course_thumbnail)}
                                                 alt={vid.title}
                                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                                 onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { getAssetUrl } from '../utils/api';
 import { useState } from 'react';
 import { FaBars, FaTimes, FaUser } from 'react-icons/fa';
 
@@ -56,7 +57,7 @@ const Navbar = () => {
                                     <div className="w-10 h-10 rounded-full overflow-hidden border border-neon-blue/50 shadow-[0_0_10px_rgba(0,242,255,0.2)]">
                                         {user.profile_pic ? (
                                             <img
-                                                src={user.profile_pic.startsWith('http') ? user.profile_pic : `http://localhost:5000${user.profile_pic}`}
+                                                src={getAssetUrl(user.profile_pic)}
                                                 alt={user.name}
                                                 className="w-full h-full object-cover"
                                                 onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
@@ -111,7 +112,7 @@ const Navbar = () => {
                                 <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-neon-blue shadow-[0_0_15px_rgba(0,242,255,0.3)]">
                                     {user.profile_pic ? (
                                         <img
-                                            src={user.profile_pic.startsWith('http') ? user.profile_pic : `http://localhost:5000${user.profile_pic}`}
+                                            src={getAssetUrl(user.profile_pic)}
                                             alt={user.name}
                                             className="w-full h-full object-cover"
                                             onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
