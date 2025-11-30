@@ -5,9 +5,9 @@ import { FaVideo, FaUsers, FaChalkboardTeacher, FaPlay, FaPlus, FaChevronLeft, F
 
 const TrainerHome = () => {
     const [stats, setStats] = useState({
-        totalStudents: 0,
-        totalCourses: 0,
-        totalVideos: 0
+        total_students: 0,
+        total_batches: 0,
+        total_videos: 0
     });
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -23,7 +23,7 @@ const TrainerHome = () => {
     const fetchDashboardData = async () => {
         try {
             const res = await api.get('/trainer/dashboard');
-            setStats(res.data.stats || { totalStudents: 0, totalCourses: 0, totalVideos: 0 });
+            setStats(res.data || { total_students: 0, total_batches: 0, total_videos: 0 });
         } catch (error) {
             console.error("Error fetching dashboard stats:", error);
         }
@@ -71,7 +71,7 @@ const TrainerHome = () => {
                         </div>
                         <div>
                             <p className="text-gray-400 text-sm">Total Students</p>
-                            <h3 className="text-2xl font-bold text-white">{stats.totalStudents}</h3>
+                            <h3 className="text-2xl font-bold text-white">{stats.total_students}</h3>
                         </div>
                     </div>
                     <div className="bg-dark-card p-6 rounded-xl border border-gray-800 flex items-center gap-4">
@@ -80,7 +80,7 @@ const TrainerHome = () => {
                         </div>
                         <div>
                             <p className="text-gray-400 text-sm">Active Batches</p>
-                            <h3 className="text-2xl font-bold text-white">{stats.totalBatches || stats.totalCourses}</h3>
+                            <h3 className="text-2xl font-bold text-white">{stats.total_batches}</h3>
                         </div>
                     </div>
                     <div className="bg-dark-card p-6 rounded-xl border border-gray-800 flex items-center gap-4">
@@ -89,7 +89,7 @@ const TrainerHome = () => {
                         </div>
                         <div>
                             <p className="text-gray-400 text-sm">Uploaded Videos</p>
-                            <h3 className="text-2xl font-bold text-white">{stats.totalVideos}</h3>
+                            <h3 className="text-2xl font-bold text-white">{stats.total_videos}</h3>
                         </div>
                     </div>
                 </div>
