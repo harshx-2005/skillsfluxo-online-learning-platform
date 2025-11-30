@@ -55,7 +55,7 @@ module.exports = {
     const limit = parseInt(req.query.limit) || 10;
     const offset = (page - 1) * limit;
 
-    let where = "WHERE is_active = 1";
+    let where = "WHERE 1=1";
 
     if (search) {
       where += ` AND (name LIKE '%${search}%' OR description LIKE '%${search}%')`;
@@ -285,7 +285,7 @@ module.exports = {
       SELECT b.*, c.name AS course_name
       FROM batches b
       JOIN courses c ON c.id = b.course_id
-      WHERE b.is_active = 1
+      WHERE 1=1
     `;
 
     if (course_id) sql += ` AND b.course_id = ${course_id}`;
@@ -370,7 +370,7 @@ module.exports = {
     SELECT b.*, c.name AS course_title
     FROM batches b
     LEFT JOIN courses c ON c.id = b.course_id
-    WHERE b.course_id = ? AND b.is_active = 1
+    WHERE b.course_id = ?
     ORDER BY b.start_date IS NULL, b.start_date DESC
   `;
     db.query(sql, [courseId], (err, rows) => {

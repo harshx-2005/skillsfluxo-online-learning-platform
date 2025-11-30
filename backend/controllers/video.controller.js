@@ -330,14 +330,14 @@ module.exports = {
         const limit = parseInt(req.query.limit) || 10;
         const offset = (page - 1) * limit;
 
-        const countSql = `SELECT COUNT(*) as total FROM videos WHERE is_active = 1`;
+        const countSql = `SELECT COUNT(*) as total FROM videos WHERE 1=1`;
         const sql = `
             SELECT v.*, u.name as uploaded_by_name, c.name as course_name, b.title as batch_title
             FROM videos v
             LEFT JOIN users u ON v.uploaded_by = u.id
             LEFT JOIN courses c ON v.course_id = c.id
             LEFT JOIN batches b ON v.batch_id = b.id
-            WHERE v.is_active = 1
+            WHERE 1=1
             ORDER BY v.id DESC
             LIMIT ? OFFSET ?
         `;
@@ -366,12 +366,14 @@ module.exports = {
     getVideosByCourse: (req, res) => {
         const course_id = req.params.course_id;
 
-        const sql = `
-            SELECT * FROM videos
-            WHERE course_id = ?
-            AND is_active = 1
-            ORDER BY id DESC
-        `;
+        const role = req.user.role;
+        let sql = `SELECT * FROM videos WHERE course_id = ?`;
+
+        if (role !== 'admin') {
+            sql += ` AND is_active = 1`;
+        }
+
+        sql += ` ORDER BY id DESC`;
 
         db.query(sql, [course_id], (err, rows) => {
             if (err) return res.send(err);
@@ -391,12 +393,14 @@ module.exports = {
 
         const batch_id = req.params.batch_id;
 
-        const sql = `
-  SELECT * FROM videos
-  WHERE batch_id = ?
-  AND is_active = 1
-  ORDER BY id DESC
-`;
+        const role = req.user.role;
+        let sql = `SELECT * FROM videos WHERE batch_id = ?`;
+
+        if (role !== 'admin') {
+            sql += ` AND is_active = 1`;
+        }
+
+        sql += ` ORDER BY id DESC`;
 
 
         db.query(sql, [batch_id], (err, rows) => {
@@ -424,15 +428,17 @@ module.exports = {
             return res.send({ message: "Search key required" });
         }
 
-        const sql = `
-  SELECT * FROM videos
-  WHERE is_active = 1
-    AND (
-      name LIKE ?
-      OR description LIKE ?
-    )
-  ORDER BY id DESC
-`;
+        const role = req.user.role;
+        let sql = `
+          SELECT * FROM videos
+          WHERE (name LIKE ? OR description LIKE ?)
+        `;
+
+        if (role !== 'admin') {
+            sql += ` AND is_active = 1`;
+        }
+
+        sql += ` ORDER BY id DESC`;
 
 
         const value = "%" + key + "%";
